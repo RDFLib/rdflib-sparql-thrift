@@ -8,7 +8,7 @@ from rdflib.query import (
 )
 
 from thrift.transport.TTransport import TMemoryBuffer
-from thrift.protocol.TCompactProtocol import TCompactProtocol
+from thrift.protocol.TCompactProtocol import TCompactProtocol, TCompactProtocolAccelerated
 
 from .ttypes import RDF_VarTuple, RDF_DataTuple, RDF_Term
 from .iotransport import TIOStreamTransport
@@ -32,7 +32,8 @@ class ThriftResult(Result):
 
         #transport = TIOStreamTransport(source)
         transport = TMemoryBuffer(source.read())
-        protocol = TCompactProtocol(transport)
+        #protocol = TCompactProtocol(transport)
+        protocol = TCompactProtocolAccelerated(transport)
 
         # t = RDF_Term()
         # t.read(protocol)
