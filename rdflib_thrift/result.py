@@ -11,7 +11,7 @@ from thrift.transport.TTransport import TMemoryBuffer
 from thrift.protocol.TCompactProtocol import TCompactProtocol
 
 from .ttypes import RDF_VarTuple, RDF_DataTuple, RDF_Term
-
+from .iotransport import TIOStreamTransport
 
 """A Parser for SPARQL results in Thrift:
 
@@ -30,11 +30,8 @@ class ThriftResult(Result):
     def __init__(self, source):
         super(ThriftResult, self).__init__('SELECT')
 
-        # hmm: https://github.com/syyang/quizlrd/blob/master/thrift/transport/TIOStreamTransport.py
-
-        data = source.read()
-
-        transport = TMemoryBuffer(data)
+        #transport = TIOStreamTransport(source)
+        transport = TMemoryBuffer(source.read())
         protocol = TCompactProtocol(transport)
 
         # t = RDF_Term()
@@ -60,7 +57,7 @@ class ThriftResult(Result):
                 break
 
     def _convert(self, term):
-        print term
+
         if term.iri:
             return URIRef(term.iri.iri)
         elif term.literal:
