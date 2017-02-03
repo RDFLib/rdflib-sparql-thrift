@@ -13,6 +13,13 @@ from thrift.protocol.TCompactProtocol import TCompactProtocol, TCompactProtocolA
 from .ttypes import RDF_VarTuple, RDF_DataTuple, RDF_Term
 from .iotransport import TIOStreamTransport
 
+
+# monkey patch this for now
+import SPARQLWrapper.Wrapper
+SPARQLWrapper.Wrapper._allowedFormats.append('thrift')
+
+__all__ = [ 'ThriftResultParser', 'ThriftResult' ]
+
 """A Parser for SPARQL results in Thrift:
 
 http://afs.github.io/rdf-thrift/rdf-compact-thrift.html
